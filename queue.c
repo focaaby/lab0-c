@@ -52,6 +52,10 @@ bool q_insert_head(queue_t *q, char *s)
     if (!newh)
         return false;
     newh->value = malloc(sizeof(char) * (strlen(s) + 1));
+    if (!newh->value) {
+        free(newh);
+        return false;
+    }
     memset(newh->value, 0, sizeof(char) * (strlen(s) + 1));
     strncpy(newh->value, s, strlen(s));
     newh->next = NULL;
@@ -79,6 +83,10 @@ bool q_insert_tail(queue_t *q, char *s)
     if (!newt)
         return false;
     newt->value = malloc(sizeof(char) * (strlen(s) + 1));
+    if (!newt->value) {
+        free(newt);
+        return false;
+    }
     memset(newt->value, 0, sizeof(char) * (strlen(s) + 1));
     strncpy(newt->value, s, strlen(s));
     newt->next = NULL;

@@ -12,7 +12,7 @@
 queue_t *q_new()
 {
     queue_t *q = malloc(sizeof(queue_t));
-    if (q == NULL)
+    if (!q)
         return NULL;
     q->head = q->tail = NULL;
     q->size = 0;
@@ -36,11 +36,11 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
-    if (q == NULL)
+    if (!q)
         return false;
     list_ele_t *newh;
     newh = malloc(sizeof(list_ele_t));
-    if (newh == NULL)
+    if (!newh)
         return false;
     newh->value = malloc(sizeof(char) * (strlen(s) + 1));
     memset(newh->value, 0, sizeof(char) * (strlen(s) + 1));
@@ -63,17 +63,17 @@ bool q_insert_head(queue_t *q, char *s)
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
-    if (q == NULL)
+    if (!q)
         return false;
     list_ele_t *newt;
     newt = malloc(sizeof(list_ele_t));
-    if (newt == NULL)
+    if (!newt)
         return false;
     newt->value = malloc(sizeof(char) * (strlen(s) + 1));
     memset(newt->value, 0, sizeof(char) * (strlen(s) + 1));
     strncpy(newt->value, s, strlen(s));
     newt->next = NULL;
-    if (q->tail != NULL) {
+    if (q->tail) {
         q->tail->next = newt;
     } else {
         q->head = newt;
@@ -93,9 +93,9 @@ bool q_insert_tail(queue_t *q, char *s)
  */
 bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
-    if (q == NULL || q->size == 0)
+    if (!q || q->size == 0)
         return false;
-    if (sp != NULL) {
+    if (sp) {
         memset(sp, '\0', bufsize);
         strncpy(sp, q->head->value, bufsize - 1);
     }
@@ -114,7 +114,7 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 int q_size(queue_t *q)
 {
     /* TODO: It should operate in O(1) time */
-    if (q != NULL)
+    if (q)
         return q->size;
     return 0;
 }
@@ -128,11 +128,11 @@ int q_size(queue_t *q)
  */
 void q_reverse(queue_t *q)
 {
-    if (q == NULL || q->size < 2)
+    if (!q || q->size < 2)
         return;
     list_ele_t *curr = q->head;
     list_ele_t *next = NULL, *prev = NULL;
-    while (curr != NULL) {
+    while (curr) {
         next = curr->next;
         curr->next = prev;
         prev = curr;
@@ -182,10 +182,10 @@ list_ele_t *merge_sort(list_ele_t *start)
  */
 void q_sort(queue_t *q)
 {
-    if (q == NULL || q->head == NULL || q->size < 2)
+    if (!q || !q->head || q->size < 2)
         return;
     q->head = q->tail = merge_sort(q->head);
-    while (q->tail->next != NULL) {
+    while (q->tail->next) {
         q->tail = q->tail->next;
     }
 }
